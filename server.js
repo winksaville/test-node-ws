@@ -1,10 +1,11 @@
 let http = require('http');
-let fs = require('fs')
+let fs = require('fs');
+let ws = require('ws');
 
 const PORT = 3000;
 
 // Create a server and the handler for a few requests
-var server = http.createServer((req, res) => {
+let http_server = http.createServer((req, res) => {
   console.log('req.url=' + req.url);
   switch (req.url) {
     case '/': {
@@ -39,6 +40,26 @@ var server = http.createServer((req, res) => {
 });
 
 // Start it listening on the desired port
-server.listen(PORT, () => {
+http_server.listen(PORT, () => {
   console.log('Listening on: http://localhost:%s', PORT);
+});
+
+
+// Create WebSocket Server and handle some events
+let ws_server = new ws.Server({server: http_server});
+
+ws_server.on('connection', (ws) => {
+  console.log('ws_server: connection created ws=%s' + JSON.stringify(ws));
+});
+
+ws_server.on('error', (err) => {
+  console.log('ws_server: error err=%s', err);
+});
+
+ws_server.on('headers', (headers) => {
+  console.log('ws_server: headers err=%s', JSON.stringify(headers));
+});
+
+ws_server.on('listening', () => {
+  console.log('ws_server: listening');
 });
