@@ -5,6 +5,8 @@ m.render(document.body,
   m('div', 'Hello, click to ', [
     m('a', {href: 'http://localhost:3000'}, 'reload'),
     m('br'),
-    m('button', {onclick: ws_client.connect}, "connect to server")
+    m('button', {onclick: ws_client.connect}, "connect to server"),
+    m('br'),
+    m('button', {onclick: ws_client.disconnect}, "disconnect from server")
   ])
 );
