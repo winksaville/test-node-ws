@@ -1,14 +1,20 @@
 {
   "name": "test-node-ws",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
+  "author": "Wink Saville",
+  "license": "Unlicense",
   "scripts": {
-    "build": "webpack client.js bundle.js",
+    "build": "tsc && webpack client.js bundle.js",
     "start": "node server.js",
     "start:dev": "nodemon server.js"
   },
   "devDependencies": {
+    "@types/node": "^7.0.5",
+    "@types/websocket": "^0.0.33",
     "nodemon": "^1.11.0",
+    "ts-node": "^2.1.0",
+    "typescript": "^2.2.1",
     "webpack": "^2.2.1"
   },
   "dependencies": {

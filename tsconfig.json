@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "ES6",
+        "sourceMap": true,
+        "allowJs": false,
+        "alwaysStrict": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noEmitOnError": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "declaration": true,
+        "experimentalDecorators": true,
+        "forceConsistentCasingInFileNames": true,
+        "strictNullChecks": false  // if true cannot assigne ws = undefined;
+    },
+    "include": [
+      "ws_client.ts"
+    ]
+}
