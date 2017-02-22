@@ -16,13 +16,13 @@ var server = http.createServer((req, res) => {
       fs.createReadStream('./index.html').pipe(res)
       break;
     }
-    case '/client.js': {
+    case '/bundle.js': {
       res.writeHead(200, {
         'content-type': 'text/javascript',
         'charset': 'UTF-8'
       });
 
-      fs.createReadStream('./client.js').pipe(res)
+      fs.createReadStream('./bundle.js').pipe(res)
       break;
     }
     default: {
