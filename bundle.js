@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1260,10 +1260,23 @@ m.vnode = Vnode
 if (true) module["exports"] = m
 else window.m = m
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4).setImmediate, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5).setImmediate, __webpack_require__(0)))
 
 /***/ }),
 /* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ws_client; });
+let ws_client = {
+  connect: function () {
+    console.log('connecting to server');
+  }
+};
+
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -1449,7 +1462,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -1639,10 +1652,10 @@ process.umask = function() { return 0; };
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(3)))
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var apply = Function.prototype.apply;
@@ -1695,14 +1708,18 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(3);
+__webpack_require__(4);
 exports.setImmediate = setImmediate;
 exports.clearImmediate = clearImmediate;
 
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ws_client__ = __webpack_require__(2);
 
 var m = __webpack_require__(1);
 
@@ -1710,10 +1727,7 @@ m.render(document.body,
   m('div', 'Hello, click to ', [
     m('a', {href: 'http://localhost:3000'}, 'reload'),
     m('br'),
-    m('button', {onclick: () => {
-        console.log('button clicked');
-      }
-    }, "button")
+    m('button', {onclick: __WEBPACK_IMPORTED_MODULE_0__ws_client__["a" /* ws_client */].connect }, "connect to server")
   ])
 );
 
