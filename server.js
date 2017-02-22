@@ -49,7 +49,7 @@ http_server.listen(PORT, () => {
 let ws_server = new ws.Server({server: http_server});
 
 ws_server.on('connection', (ws) => {
-  console.log('ws_server: connection created ws=%s' + JSON.stringify(ws));
+  console.log('ws_server: connection created ws=%s', ws);
 });
 
 ws_server.on('error', (err) => {
@@ -57,7 +57,7 @@ ws_server.on('error', (err) => {
 });
 
 ws_server.on('headers', (headers) => {
-  console.log('ws_server: headers err=%s', JSON.stringify(headers));
+  console.log('ws_server: headers=%s', JSON.stringify(headers));
 });
 
 ws_server.on('listening', () => {

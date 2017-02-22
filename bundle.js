@@ -1268,11 +1268,34 @@ else window.m = m
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ws_client; });
+console.log('ws_client:+');
+
 let ws_client = {
   connect: function () {
     console.log('connecting to server');
+
+    let ws = new WebSocket('ws://localhost:3000');
+    console.log('create ws done');
+
+    ws.onopen = function(evt) {
+      console.log('ws.onopen: connected evt=' + JSON.stringify(evt));
+    };
+
+    ws.onclose = function(evt) {
+      console.log('ws.onclose: disconnected evt=' + JSON.stringify(evt));
+    };
+
+    ws.onmessage = function (evt) {
+      console.log('ws.onmessage: evt=' + JSON.stringify(evt));
+    };
+
+    ws.onerror = function(evt) {
+      console.log('ws.onerror: evt=' + JSON.stringify(evt));
+    };
   }
 };
+
+console.log('ws_client:-');
 
 
 /***/ }),
@@ -1727,7 +1750,7 @@ m.render(document.body,
   m('div', 'Hello, click to ', [
     m('a', {href: 'http://localhost:3000'}, 'reload'),
     m('br'),
-    m('button', {onclick: __WEBPACK_IMPORTED_MODULE_0__ws_client__["a" /* ws_client */].connect }, "connect to server")
+    m('button', {onclick: __WEBPACK_IMPORTED_MODULE_0__ws_client__["a" /* ws_client */].connect}, "connect to server")
   ])
 );
 
