@@ -50,6 +50,9 @@ let ws_server = new ws.Server({server: http_server});
 
 ws_server.on('connection', (ws) => {
   console.log('ws_server: connection created ws=%s', ws);
+  ws.on('close', (code, reason) => {
+    console.log('ws: connection closed code=%d reason=\'%s\'', code, reason);
+  });
 });
 
 ws_server.on('error', (err) => {

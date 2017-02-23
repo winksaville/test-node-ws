@@ -8,10 +8,11 @@ class WsClient {
     WsClient() {
     }
     connect(urn) {
-        console.log('connecting to server');
+        console.log('connect:+ urn=%s this.ws=%s', urn, this.ws);
         if (this.ws === undefined) {
+            console.log('create ws ws=%s', this.ws);
             this.ws = new WebSocket(`ws://${urn}`);
-            console.log('create ws done');
+            console.log('create ws done ws=%s', this.ws);
             this.ws.onopen = function (evt) {
                 console.log('ws.onopen: connected evt=%s', JSON.stringify(evt));
             };
@@ -26,20 +27,23 @@ class WsClient {
         else {
             throw 'ws is already connected or connecting, disconnect first';
         }
+        console.log('connect:- urn=%s this.ws=%s', urn, this.ws);
     }
     disconnect() {
-        console.log('disconnecting from server');
+        console.log('disconnect:+ this.ws=%s', this.ws);
         try {
             if (this.ws) {
+                console.log('disconnect: disconnecting from server');
                 this.ws.close();
             }
             else {
-                console.log('ws is not defined');
+                console.log('disconnect: ws is not defined');
             }
         }
         catch (err) {
-            console.log('disconnecting err=%s', err);
+            console.log('disconnect: err=%s', err);
         }
+        console.log('disconnect:- this.ws=%s', this.ws);
     }
     onclose(wsClientThis) {
         return (evt) => {
