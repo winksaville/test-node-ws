@@ -1270,33 +1270,37 @@ else window.m = m
 
 Object.defineProperty(exports, "__esModule", { value: true });
 console.log('ws_client:+');
-// How to make this a property of the ws_client object below
-let ws;
-exports.ws_client = {
-    connect: function () {
+/**
+ * A WebSocket client
+ */
+class WsClient {
+    WsClient() {
+    }
+    connect(urn) {
         console.log('connecting to server');
-        //let ws = new WebSocketClient('ws://localhost:3000');
-        ws = new WebSocket('ws://localhost:3000');
-        console.log('create ws done');
-        ws.onopen = function (evt) {
-            console.log('ws.onopen: connected evt=%s', JSON.stringify(evt));
-        };
-        ws.onclose = function (evt) {
-            console.log('ws.onclose: disconnected evt=%s', JSON.stringify(evt));
-        };
-        ws.onmessage = function (evt) {
-            console.log('ws.onmessage: evt=%s', JSON.stringify(evt));
-        };
-        ws.onerror = function (evt) {
-            console.log('ws.onerror: evt=%s', JSON.stringify(evt));
-        };
-    },
-    disconnect: function () {
+        if (this.ws === undefined) {
+            this.ws = new WebSocket(`ws://${urn}`);
+            console.log('create ws done');
+            this.ws.onopen = function (evt) {
+                console.log('ws.onopen: connected evt=%s', JSON.stringify(evt));
+            };
+            this.ws.onclose = this.onclose(this);
+            this.ws.onmessage = function (evt) {
+                console.log('ws.onmessage: evt=%s', JSON.stringify(evt));
+            };
+            this.ws.onerror = function (evt) {
+                console.log('ws.onerror: evt=%s', JSON.stringify(evt));
+            };
+        }
+        else {
+            throw 'ws is already connected or connecting, disconnect first';
+        }
+    }
+    disconnect() {
         console.log('disconnecting from server');
         try {
-            if (ws) {
-                ws.close();
-                ws = undefined; // doesn't compile because of strictNullChecks === true :( how to deinit a variable
+            if (this.ws) {
+                this.ws.close();
             }
             else {
                 console.log('ws is not defined');
@@ -1306,7 +1310,14 @@ exports.ws_client = {
             console.log('disconnecting err=%s', err);
         }
     }
-};
+    onclose(wsClientThis) {
+        return (evt) => {
+            console.log('onclose: disconnected evt=%s', JSON.stringify(evt));
+            wsClientThis.ws = undefined; // Error if strictNullChecks === true
+        };
+    }
+}
+exports.WsClient = WsClient;
 console.log('ws_client:-');
 //# sourceMappingURL=ws_client.js.map
 
@@ -1759,13 +1770,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 var m = __webpack_require__(1);
 
+var ws_client = new __WEBPACK_IMPORTED_MODULE_0__ws_client__["WsClient"]();
+
+function connect() {
+  ws_client.connect('localhost:3000');
+}
+
 m.render(document.body,
   m('div', 'Hello, click to ', [
     m('a', {href: 'http://localhost:3000'}, 'reload'),
     m('br'),
-    m('button', {onclick: __WEBPACK_IMPORTED_MODULE_0__ws_client__["ws_client"].connect}, "connect to server"),
+    m('button', {onclick: connect }, "connect to server"),
     m('br'),
-    m('button', {onclick: __WEBPACK_IMPORTED_MODULE_0__ws_client__["ws_client"].disconnect}, "disconnect from server")
+    m('button', {onclick: ws_client.disconnect}, "disconnect from server")
   ])
 );
 

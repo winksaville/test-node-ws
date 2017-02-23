@@ -1,4 +1,10 @@
-export declare let ws_client: {
-    connect: () => void;
-    disconnect: () => void;
-};
+/**
+ * A WebSocket client
+ */
+export declare class WsClient {
+    ws: WebSocket;
+    WsClient(): void;
+    connect(urn: string): void;
+    disconnect(): void;
+    private onclose(wsClientThis);
+}
