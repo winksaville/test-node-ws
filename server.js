@@ -121,6 +121,7 @@ function stopEventGenerator(conn) {
 
 function timeout(conn, str) {
   if (conn.timeoutObj) {
+    conn.ws.send(`hi client ${conn.timeout}`);
     conn.timeout += 1;
     console.log('timeout: str=%s conn=%s', str, conn.stringify());
     setTimeout(() => {

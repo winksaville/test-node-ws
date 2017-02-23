@@ -24,7 +24,7 @@ export class WsClient {
       this.ws.onclose = this.onclose(this);
 
       this.ws.onmessage = function (msg: MessageEvent) {
-        console.log('ws.onmessage: msg=%s', JSON.stringify(msg));
+        console.log('ws.onmessage: msg.data=%s', JSON.stringify(msg.data));
       };
 
       this.ws.onerror = function(evt: Event) {

@@ -1286,8 +1286,8 @@ class WsClient {
                 console.log('ws.onopen: connected evt=%s', JSON.stringify(evt));
             };
             this.ws.onclose = this.onclose(this);
-            this.ws.onmessage = function (evt) {
-                console.log('ws.onmessage: evt=%s', JSON.stringify(evt));
+            this.ws.onmessage = function (msg) {
+                console.log('ws.onmessage: msg.data=%s', JSON.stringify(msg.data));
             };
             this.ws.onerror = function (evt) {
                 console.log('ws.onerror: evt=%s', JSON.stringify(evt));
