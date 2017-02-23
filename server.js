@@ -48,11 +48,34 @@ http_server.listen(PORT, () => {
 // Create WebSocket Server and handle some events
 let ws_server = new ws.Server({server: http_server});
 
+function secs2ms(secs) {
+  return secs * 1000;
+}
+
+var conn_id = 0;
+
+function Connection() {
+  this.id = conn_id++;
+  this.stringify = () => {
+    return `Connection: id=${this.id}`;
+  };
+}
+
 ws_server.on('connection', (ws) => {
-  console.log('ws_server: connection created ws=%s', ws);
+
+  let conn = new Connection();
+  conn.ws = ws;
+  console.log('onConnect: conn=%s', conn.stringify());
+  startEventGenerator(conn, secs2ms(10), secs2ms(3));
+
+  console.log('ws_server: conn=%s', conn.stringify());
+
   ws.on('close', (code, reason) => {
-    console.log('ws: connection closed code=%d reason=\'%s\'', code, reason);
+    console.log('ws: closed code=%d reason=\'%s\' conn=%s',
+      code, reason, conn.stringify());
+    stopEventGenerator(conn);
   });
+
 });
 
 ws_server.on('error', (err) => {
@@ -66,3 +89,45 @@ ws_server.on('headers', (headers) => {
 ws_server.on('listening', () => {
   console.log('ws_server: listening');
 });
+
+function startEventGenerator(conn, delay, spacing) {
+  console.log('startEventGenerator:+ delay=%d spacing=%d conn=%s',
+    delay, spacing, conn.stringify());
+
+  conn.delay = delay;
+  conn.spacing = spacing;
+  conn.timeout = 0;
+  conn.running = true;
+  let prevStringify = conn.stringify;
+  conn.stringify = () => {
+    return prevStringify() + ` delay=${conn.delay} spacing=${conn.spacing} timeout=${conn.timeout}`;
+  };
+
+  setTimeout(() => {
+    timeout(conn, 'initial');
+  }, conn.delay);
+
+  console.log('startEventGenerator:- delay=%d spacing=%d conn=%s',
+    delay, spacing, conn.stringify());
+}
+
+function stopEventGenerator(conn) {
+  console.log('stopEventGenerator:+ conn=%s', conn.stringify());
+
+  conn.running = false;
+
+  console.log('stopEventGenerator:- conn=%s', conn.stringify());
+}
+
+function timeout(conn, str) {
+  let lc = conn;
+  if (lc && lc.running) {
+    lc.timeout += 1;
+    console.log('timeout: str=%s conn=%s', str, lc.stringify());
+    setTimeout(() => {
+      timeout(lc, 'continuing');
+    }, lc.spacing);
+  } else {
+    console.log('timeout: stopping');
+  }
+}
