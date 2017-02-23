@@ -97,13 +97,12 @@ function startEventGenerator(conn, delay, spacing) {
   conn.delay = delay;
   conn.spacing = spacing;
   conn.timeout = 0;
-  conn.running = true;
   let prevStringify = conn.stringify;
   conn.stringify = () => {
     return prevStringify() + ` delay=${conn.delay} spacing=${conn.spacing} timeout=${conn.timeout}`;
   };
 
-  setTimeout(() => {
+  conn.timeoutObj = setTimeout(() => {
     timeout(conn, 'initial');
   }, conn.delay);
 
@@ -114,20 +113,20 @@ function startEventGenerator(conn, delay, spacing) {
 function stopEventGenerator(conn) {
   console.log('stopEventGenerator:+ conn=%s', conn.stringify());
 
-  conn.running = false;
+  clearTimeout(conn.timeoutObj);
+  conn.timeoutObj = null;
 
   console.log('stopEventGenerator:- conn=%s', conn.stringify());
 }
 
 function timeout(conn, str) {
-  let lc = conn;
-  if (lc && lc.running) {
-    lc.timeout += 1;
-    console.log('timeout: str=%s conn=%s', str, lc.stringify());
+  if (conn.timeoutObj) {
+    conn.timeout += 1;
+    console.log('timeout: str=%s conn=%s', str, conn.stringify());
     setTimeout(() => {
-      timeout(lc, 'continuing');
-    }, lc.spacing);
+      timeout(conn, 'continuing');
+    }, conn.spacing);
   } else {
-    console.log('timeout: stopping');
+    console.log('timeout: stopped');
   }
 }
