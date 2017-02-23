@@ -14,7 +14,7 @@
         "declaration": true,
         "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": true,
-        "strictNullChecks": false  // if true cannot assigne ws = undefined;
+        "strictNullChecks": true
     },
     "include": [
       "ws_client.ts"

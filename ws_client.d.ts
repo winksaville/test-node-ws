@@ -2,7 +2,7 @@
  * A WebSocket client
  */
 export declare class WsClient {
-    ws: WebSocket;
+    ws?: WebSocket;
     WsClient(): void;
     connect(urn: string): void;
     disconnect(): void;

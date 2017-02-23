@@ -4,7 +4,7 @@ console.log('ws_client:+');
  * A WebSocket client
  */
 export class WsClient {
-  ws: WebSocket;
+  ws?: WebSocket;
 
   public WsClient() {
   }
@@ -23,8 +23,8 @@ export class WsClient {
 
       this.ws.onclose = this.onclose(this);
 
-      this.ws.onmessage = function (evt: MessageEvent) {
-        console.log('ws.onmessage: evt=%s', JSON.stringify(evt));
+      this.ws.onmessage = function (msg: MessageEvent) {
+        console.log('ws.onmessage: msg=%s', JSON.stringify(msg));
       };
 
       this.ws.onerror = function(evt: Event) {
@@ -54,7 +54,7 @@ export class WsClient {
   private onclose(wsClientThis: WsClient): {(evt: CloseEvent): void} {
     return (evt: CloseEvent) => {
       console.log('onclose: disconnected evt=%s', JSON.stringify(evt));
-      wsClientThis.ws = undefined; // Error if strictNullChecks === true
+      wsClientThis.ws = undefined;
     }
   }
 }

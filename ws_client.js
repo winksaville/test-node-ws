@@ -48,7 +48,7 @@ class WsClient {
     onclose(wsClientThis) {
         return (evt) => {
             console.log('onclose: disconnected evt=%s', JSON.stringify(evt));
-            wsClientThis.ws = undefined; // Error if strictNullChecks === true
+            wsClientThis.ws = undefined;
         };
     }
 }
