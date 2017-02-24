@@ -1287,7 +1287,7 @@ class WsClient {
             };
             this.ws.onclose = this.onclose(this);
             this.ws.onmessage = function (msg) {
-                console.log('ws.onmessage: msg.data=%s', JSON.stringify(msg.data));
+                console.log('ws.onmessage: msg.data=%s', msg.data);
             };
             this.ws.onerror = function (evt) {
                 console.log('ws.onerror: evt=%s', JSON.stringify(evt));
@@ -1313,6 +1313,15 @@ class WsClient {
             console.log('disconnect: err=%s', err);
         }
         console.log('disconnect:- this.ws=%s', this.ws);
+    }
+    sendMsg(msg) {
+        console.log('sendMsg:+ this.ws=%s msg=%s', this.ws, msg);
+        if (this.ws) {
+            console.log('sendMsg: sending');
+            this.ws.send(msg);
+            console.log('sendMsg: sent');
+        }
+        console.log('sendMsg:- this.ws=%s msg=%s', this.ws, msg);
     }
     onclose(wsClientThis) {
         return (evt) => {
@@ -1784,13 +1793,24 @@ function disconnect() {
   ws_client.disconnect();
 }
 
+function sendMsg() {
+  let msg_text = document.getElementById('msg_text').value;
+  ws_client.sendMsg(msg_text);
+}
+
 m.render(document.body,
   m('div', 'Hello, click to ', [
     m('a', {href: 'http://localhost:3000'}, 'reload'),
     m('br'),
     m('button', {onclick: connect }, "connect to server"),
     m('br'),
-    m('button', {onclick: disconnect}, "disconnect from server")
+    m('button', {onclick: disconnect}, "disconnect from server"),
+    m('br'),
+    m('msg_div', 'Msg to send ', [
+      m('input', {id: 'msg_text', type: 'text'}),
+      m('br'),
+      m('button', {onclick: sendMsg}, "send msg")
+    ]),
   ])
 );
 

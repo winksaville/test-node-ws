@@ -6,5 +6,6 @@ export declare class WsClient {
     WsClient(): void;
     connect(urn: string): void;
     disconnect(): void;
+    sendMsg(msg: string): void;
     private onclose(wsClientThis);
 }

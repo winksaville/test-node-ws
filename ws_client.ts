@@ -24,7 +24,7 @@ export class WsClient {
       this.ws.onclose = this.onclose(this);
 
       this.ws.onmessage = function (msg: MessageEvent) {
-        console.log('ws.onmessage: msg.data=%s', JSON.stringify(msg.data));
+        console.log('ws.onmessage: msg.data=%s', msg.data);
       };
 
       this.ws.onerror = function(evt: Event) {
@@ -49,6 +49,16 @@ export class WsClient {
       console.log('disconnect: err=%s', err);
     }
     console.log('disconnect:- this.ws=%s', this.ws);
+  }
+
+  public sendMsg(msg: string) {
+    console.log('sendMsg:+ this.ws=%s msg=%s', this.ws, msg);
+    if (this.ws) {
+      console.log('sendMsg: sending');
+      this.ws.send(msg);
+      console.log('sendMsg: sent');
+    }
+    console.log('sendMsg:- this.ws=%s msg=%s', this.ws, msg);
   }
 
   private onclose(wsClientThis: WsClient): {(evt: CloseEvent): void} {

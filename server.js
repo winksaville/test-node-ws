@@ -90,6 +90,10 @@ ws_server.on('listening', () => {
   console.log('ws_server: listening');
 });
 
+ws_server.on('message', (msg) => {
+  console.log('ws_server: message msg=%s', msg.data);
+});
+
 function startEventGenerator(conn, delay, spacing) {
   console.log('startEventGenerator:+ delay=%d spacing=%d conn=%s',
     delay, spacing, conn.stringify());
