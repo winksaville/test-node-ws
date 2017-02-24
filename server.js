@@ -57,7 +57,7 @@ var conn_id = 0;
 
 function Connection() {
   this.id = conn_id++;
-  this.stringify = () => {
+  this.toString = () => {
     return `Connection: id=${this.id}`;
   };
 }
@@ -66,12 +66,12 @@ ws_server.on('connection', (ws) => {
 
   let conn = new Connection();
   conn.ws = ws;
-  debug('onConnect: conn=%s', conn.stringify());
+  debug('onConnect: conn=%s', conn.toString());
   startEventGenerator(conn, secs2ms(10), secs2ms(3));
 
   ws.on('close', (code, reason) => {
     debug('ws: closed code=%d reason=\'%s\' conn=%s',
-      code, reason, conn.stringify());
+      code, reason, conn.toString());
     stopEventGenerator(conn);
   });
 
@@ -95,14 +95,14 @@ ws_server.on('listening', () => {
 
 function startEventGenerator(conn, delay, spacing) {
   debug('startEventGenerator:+ delay=%d spacing=%d conn=%s',
-    delay, spacing, conn.stringify());
+    delay, spacing, conn.toString());
 
   conn.delay = delay;
   conn.spacing = spacing;
   conn.timeout = 0;
-  let prevStringify = conn.stringify;
-  conn.stringify = () => {
-    return prevStringify() + ` delay=${conn.delay} spacing=${conn.spacing} timeout=${conn.timeout}`;
+  let prevToString = conn.toString;
+  conn.toString = () => {
+    return prevToString() + ` delay=${conn.delay} spacing=${conn.spacing} timeout=${conn.timeout}`;
   };
 
   conn.timeoutObj = setTimeout(() => {
@@ -110,25 +110,25 @@ function startEventGenerator(conn, delay, spacing) {
   }, conn.delay);
 
   debug('startEventGenerator:- delay=%d spacing=%d conn=%s',
-    delay, spacing, conn.stringify());
+    delay, spacing, conn.toString());
 }
 
 function stopEventGenerator(conn) {
-  debug('stopEventGenerator:+ conn=%s', conn.stringify());
+  debug('stopEventGenerator:+ conn=%s', conn.toString());
 
   if (conn.timeoutObj) {
     clearTimeout(conn.timeoutObj);
     conn.timeoutObj = null;
   }
 
-  debug('stopEventGenerator:- conn=%s', conn.stringify());
+  debug('stopEventGenerator:- conn=%s', conn.toString());
 }
 
 function timeout(conn, str) {
   if (conn.timeoutObj) {
     conn.ws.send(`hi client ${conn.timeout}`);
     conn.timeout += 1;
-    debug('timeout: str=%s conn=%s', str, conn.stringify());
+    debug('timeout: str=%s conn=%s', str, conn.toString());
     setTimeout(() => {
       timeout(conn, 'continuing');
     }, conn.spacing);
