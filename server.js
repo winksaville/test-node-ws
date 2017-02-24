@@ -5,9 +5,6 @@ const debug = require('debug')('my-server');
 
 const PORT = 3000;
 
-console.log('hi console.log');
-debug('hi debug');
-
 // Create a server and the handler for a few requests
 let http_server = http.createServer((req, res) => {
   debug('req.url=' + req.url);
@@ -72,14 +69,16 @@ ws_server.on('connection', (ws) => {
   debug('onConnect: conn=%s', conn.stringify());
   startEventGenerator(conn, secs2ms(10), secs2ms(3));
 
-  debug('ws_server: conn=%s', conn.stringify());
-
   ws.on('close', (code, reason) => {
     debug('ws: closed code=%d reason=\'%s\' conn=%s',
       code, reason, conn.stringify());
     stopEventGenerator(conn);
   });
 
+  ws.on('message', (msg, masked) => {
+    debug('ws_server: message msg=%s masked=%s',
+      msg.data, masked);
+  });
 });
 
 ws_server.on('error', (err) => {
@@ -92,10 +91,6 @@ ws_server.on('headers', (headers) => {
 
 ws_server.on('listening', () => {
   debug('ws_server: listening');
-});
-
-ws_server.on('message', (msg) => {
-  debug('ws_server: message msg=%s', msg.data);
 });
 
 function startEventGenerator(conn, delay, spacing) {
@@ -121,8 +116,10 @@ function startEventGenerator(conn, delay, spacing) {
 function stopEventGenerator(conn) {
   debug('stopEventGenerator:+ conn=%s', conn.stringify());
 
-  clearTimeout(conn.timeoutObj);
-  conn.timeoutObj = null;
+  if (conn.timeoutObj) {
+    clearTimeout(conn.timeoutObj);
+    conn.timeoutObj = null;
+  }
 
   debug('stopEventGenerator:- conn=%s', conn.stringify());
 }
