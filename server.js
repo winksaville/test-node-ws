@@ -1,12 +1,16 @@
 let http = require('http');
 let fs = require('fs');
 let ws = require('ws');
+const debug = require('debug')('my-server');
 
 const PORT = 3000;
 
+console.log('hi console.log');
+debug('hi debug');
+
 // Create a server and the handler for a few requests
 let http_server = http.createServer((req, res) => {
-  console.log('req.url=' + req.url);
+  debug('req.url=' + req.url);
   switch (req.url) {
     case '/': {
       res.writeHead(200, {
@@ -27,7 +31,7 @@ let http_server = http.createServer((req, res) => {
       break;
     }
     default: {
-      console.log('default: req.url=' + req.url);
+      debug('default: req.url=' + req.url);
       res.writeHead(404, {
         'content-type': 'text/html',
         'charset': 'UTF-8'
@@ -41,7 +45,7 @@ let http_server = http.createServer((req, res) => {
 
 // Start it listening on the desired port
 http_server.listen(PORT, () => {
-  console.log('Listening on: http://localhost:%s', PORT);
+  debug('Listening on: http://localhost:%s', PORT);
 });
 
 
@@ -65,13 +69,13 @@ ws_server.on('connection', (ws) => {
 
   let conn = new Connection();
   conn.ws = ws;
-  console.log('onConnect: conn=%s', conn.stringify());
+  debug('onConnect: conn=%s', conn.stringify());
   startEventGenerator(conn, secs2ms(10), secs2ms(3));
 
-  console.log('ws_server: conn=%s', conn.stringify());
+  debug('ws_server: conn=%s', conn.stringify());
 
   ws.on('close', (code, reason) => {
-    console.log('ws: closed code=%d reason=\'%s\' conn=%s',
+    debug('ws: closed code=%d reason=\'%s\' conn=%s',
       code, reason, conn.stringify());
     stopEventGenerator(conn);
   });
@@ -79,23 +83,23 @@ ws_server.on('connection', (ws) => {
 });
 
 ws_server.on('error', (err) => {
-  console.log('ws_server: error err=%s', err);
+  debug('ws_server: error err=%s', err);
 });
 
 ws_server.on('headers', (headers) => {
-  console.log('ws_server: headers=%s', JSON.stringify(headers));
+  debug('ws_server: headers=%s', JSON.stringify(headers));
 });
 
 ws_server.on('listening', () => {
-  console.log('ws_server: listening');
+  debug('ws_server: listening');
 });
 
 ws_server.on('message', (msg) => {
-  console.log('ws_server: message msg=%s', msg.data);
+  debug('ws_server: message msg=%s', msg.data);
 });
 
 function startEventGenerator(conn, delay, spacing) {
-  console.log('startEventGenerator:+ delay=%d spacing=%d conn=%s',
+  debug('startEventGenerator:+ delay=%d spacing=%d conn=%s',
     delay, spacing, conn.stringify());
 
   conn.delay = delay;
@@ -110,28 +114,28 @@ function startEventGenerator(conn, delay, spacing) {
     timeout(conn, 'initial');
   }, conn.delay);
 
-  console.log('startEventGenerator:- delay=%d spacing=%d conn=%s',
+  debug('startEventGenerator:- delay=%d spacing=%d conn=%s',
     delay, spacing, conn.stringify());
 }
 
 function stopEventGenerator(conn) {
-  console.log('stopEventGenerator:+ conn=%s', conn.stringify());
+  debug('stopEventGenerator:+ conn=%s', conn.stringify());
 
   clearTimeout(conn.timeoutObj);
   conn.timeoutObj = null;
 
-  console.log('stopEventGenerator:- conn=%s', conn.stringify());
+  debug('stopEventGenerator:- conn=%s', conn.stringify());
 }
 
 function timeout(conn, str) {
   if (conn.timeoutObj) {
     conn.ws.send(`hi client ${conn.timeout}`);
     conn.timeout += 1;
-    console.log('timeout: str=%s conn=%s', str, conn.stringify());
+    debug('timeout: str=%s conn=%s', str, conn.stringify());
     setTimeout(() => {
       timeout(conn, 'continuing');
     }, conn.spacing);
   } else {
-    console.log('timeout: stopped');
+    debug('timeout: stopped');
   }
 }
