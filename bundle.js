@@ -1774,46 +1774,40 @@ exports.clearImmediate = clearImmediate;
 
 /***/ }),
 /* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ws_client__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ws_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ws_client__);
 
-var m = __webpack_require__(1);
-
-var ws_client = new __WEBPACK_IMPORTED_MODULE_0__ws_client__["WsClient"]();
-
+Object.defineProperty(exports, "__esModule", { value: true });
+const ws_client_1 = __webpack_require__(2);
+const m = __webpack_require__(1);
+var ws_client = new ws_client_1.WsClient();
 function connect() {
-  ws_client.connect('localhost:3000');
+    ws_client.connect('localhost:3000');
 }
-
 function disconnect() {
-  ws_client.disconnect();
+    ws_client.disconnect();
 }
-
 function sendMsg() {
-  let msg_text = document.getElementById('msg_text').value;
-  ws_client.sendMsg(msg_text);
+    let msg_text = document.getElementById('msg_text');
+    if (msg_text && msg_text.value) {
+        ws_client.sendMsg(msg_text.value);
+    }
 }
-
-m.render(document.body,
-  m('div', 'Hello, click to ', [
-    m('a', {href: 'http://localhost:3000'}, 'reload'),
+m.render(document.body, m('div', 'Hello, click to ', [
+    m('a', { href: 'http://localhost:3000' }, 'reload'),
     m('br'),
-    m('button', {onclick: connect }, "connect to server"),
+    m('button', { onclick: connect }, "connect to server"),
     m('br'),
-    m('button', {onclick: disconnect}, "disconnect from server"),
+    m('button', { onclick: disconnect }, "disconnect from server"),
     m('br'),
     m('msg_div', 'Msg to send ', [
-      m('input', {id: 'msg_text', type: 'text'}),
-      m('br'),
-      m('button', {onclick: sendMsg}, "send msg")
+        m('input', { id: 'msg_text', type: 'text' }),
+        m('br'),
+        m('button', { onclick: sendMsg }, "send msg")
     ]),
-  ])
-);
-
+]));
+//# sourceMappingURL=client.js.map
 
 /***/ })
 /******/ ]);

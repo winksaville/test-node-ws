@@ -11,6 +11,7 @@
     "start:dev": "DEBUG=my-server nodemon --watch server.js server.js"
   },
   "devDependencies": {
+    "@types/mithril": "github:spacejack/mithril.d.ts#1.0.1",
     "@types/node": "^7.0.5",
     "@types/ws": "^0.0.38",
     "nodemon": "^1.11.0",

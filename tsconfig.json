@@ -17,6 +17,7 @@
         "strictNullChecks": true
     },
     "include": [
+      "client.ts",
       "ws_client.ts",
       "server.ts"
     ]
