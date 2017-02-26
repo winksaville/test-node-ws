@@ -5,10 +5,10 @@
   "author": "Wink Saville",
   "license": "Unlicense",
   "scripts": {
-    "build": "tsc && webpack client.js bundle.js",
-    "start": "node server.js",
-    "start:dbg": "DEBUG=my-server nodemon debug --inspect --watch server.js server.js",
-    "start:dev": "DEBUG=my-server nodemon --watch server.js server.js"
+    "build": "tsc && webpack dist/client.js dist/bundle.js",
+    "start": "tsc && node dist/server.js",
+    "start:dbg": "DEBUG=my-server nodemon debug --inspect --watch dist/server.js dist/server.js",
+    "start:dev": "(tsc -w) & (webpack --watch dist/client.js dist/bundle.js) & (DEBUG=my-server nodemon --watch dist/server.js dist/server.js)"
   },
   "devDependencies": {
     "@types/mithril": "github:spacejack/mithril.d.ts#1.0.1",

@@ -21,12 +21,12 @@ const http_server = http.createServer((req, res) => {
             fs.createReadStream('./index.html').pipe(res);
             break;
         }
-        case '/bundle.js': {
+        case '/dist/bundle.js': {
             res.writeHead(200, {
                 'content-type': 'text/javascript',
                 'charset': 'UTF-8'
             });
-            fs.createReadStream('./bundle.js').pipe(res);
+            fs.createReadStream('./dist/bundle.js').pipe(res);
             break;
         }
         default: {

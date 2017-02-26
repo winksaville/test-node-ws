@@ -14,7 +14,8 @@
         "declaration": true,
         "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": true,
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "outDir": "dist"
     },
     "include": [
       "client.ts",
