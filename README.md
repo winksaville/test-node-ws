@@ -49,3 +49,16 @@ It also displays two buttons `connect to server` and
 The server code outputs logs to the server console and the client
 outputs logs to the browser console. For the browser you'll need
 to use developement tools to see the output.
+
+## Debugging
+On the server use `yarn start:dev` or `yarn start:dbg`. If you
+use `start:dbg` the server won't start until you connect the
+chrome devTools to the server by using the link displayed on
+the terminal.
+
+You can also enable debugging in the client by using the
+browser console to set localStorage.debug to `my-client`
+and or `my-ws_client`:
+```
+localStorage.debug='my-client,my-ws_client'
+```
