@@ -2,6 +2,10 @@ import * as http from 'http';
 import * as fs from 'fs';
 import * as WebSocket from 'ws';
 
+// See [issue #5](https://github.com/winksaville/test-node-ws/issues/5)
+//import debug = require('debug');
+//import * as debug from 'debug';
+//import { debug } from 'debug';
 const debug = require('debug')('my-server');
 
 const PORT: number = 3000;

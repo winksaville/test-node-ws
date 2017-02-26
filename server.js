@@ -3,6 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const http = require("http");
 const fs = require("fs");
 const WebSocket = require("ws");
+// See [issue #5](https://github.com/winksaville/test-node-ws/issues/5)
+//import debug = require('debug');
+//import * as debug from 'debug';
+//import { debug } from 'debug';
 const debug = require('debug')('my-server');
 const PORT = 3000;
 // Create a server and the handler for a few requests
