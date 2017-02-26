@@ -20,7 +20,7 @@ const http_server = http.createServer((req: http.IncomingMessage, res: http.Serv
         'charset': 'UTF-8'
       });
 
-      fs.createReadStream('./index.html').pipe(res)
+      fs.createReadStream('./public/index.html').pipe(res)
       break;
     }
     case '/dist/bundle.js': {
