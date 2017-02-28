@@ -51,6 +51,7 @@ http_server.listen(PORT, () => {
 });
 
 
+// Move to a library
 function secs2ms(secs: number) {
   return secs * 1000;
 }

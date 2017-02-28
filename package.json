@@ -6,14 +6,24 @@
   "license": "Unlicense",
   "scripts": {
     "build": "tsc && webpack dist/client.js dist/bundle.js",
-    "start": "tsc && node dist/server.js",
+
+    "prestart": "tsc",
+    "start": "node dist/server.js",
+
+    "prestart:dbg": "tsc",
     "start:dbg": "DEBUG=my-server nodemon debug --inspect --watch dist/server.js dist/server.js",
-    "start:dev": "(tsc -w) & (webpack --watch dist/client.js dist/bundle.js) & (DEBUG=my-server nodemon --watch dist/server.js dist/server.js)"
+
+    "prestart:dev": "(tsc -w) & (webpack --watch dist/client.js dist/bundle.js) &",
+    "start:dev": "DEBUG=my-server nodemon --watch dist/server.js dist/server.js",
+
+    "pretest:server": "tsc -p tsconfig.test.json",
+    "test:server": "alsatian \"./build.test/test/server/*.spec.js\""
   },
   "devDependencies": {
     "@types/mithril": "github:spacejack/mithril.d.ts#1.0.1",
     "@types/node": "^7.0.5",
     "@types/ws": "^0.0.38",
+    "alsatian": "^1.2.1",
     "nodemon": "^1.11.0",
     "ts-node": "^2.1.0",
     "typescript": "^2.2.1",

@@ -44,6 +44,7 @@ const http_server = http.createServer((req, res) => {
 http_server.listen(PORT, () => {
     debug('Listening on: http://localhost:%s', PORT);
 });
+// Move to a library
 function secs2ms(secs) {
     return secs * 1000;
 }
