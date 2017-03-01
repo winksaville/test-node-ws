@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const http = require("http");
 const fs = require("fs");
 const WebSocket = require("ws");
+const lib_1 = require("./lib");
 // See [issue #5](https://github.com/winksaville/test-node-ws/issues/5)
 //import debug = require('debug');
 //import * as debug from 'debug';
@@ -44,10 +45,6 @@ const http_server = http.createServer((req, res) => {
 http_server.listen(PORT, () => {
     debug('Listening on: http://localhost:%s', PORT);
 });
-// Move to a library
-function secs2ms(secs) {
-    return secs * 1000;
-}
 var conn_id = 0;
 class Connection {
     constructor() {
@@ -63,7 +60,7 @@ ws_server.on('connection', (client) => {
     let conn = new Connection();
     conn.client = client;
     debug('onConnect: conn=%s', conn.toString());
-    startEventGenerator(conn, secs2ms(10), secs2ms(3));
+    startEventGenerator(conn, lib_1.secs2ms(10), lib_1.secs2ms(3));
     client.on('close', (code, reason) => {
         debug('client: closed code=%d reason=\'%s\' conn=%s', code, reason, conn.toString());
         stopEventGenerator(conn);

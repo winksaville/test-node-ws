@@ -1,6 +1,7 @@
 import * as http from 'http';
 import * as fs from 'fs';
 import * as WebSocket from 'ws';
+import { secs2ms } from './lib';
 
 // See [issue #5](https://github.com/winksaville/test-node-ws/issues/5)
 //import debug = require('debug');
@@ -50,11 +51,6 @@ http_server.listen(PORT, () => {
   debug('Listening on: http://localhost:%s', PORT);
 });
 
-
-// Move to a library
-function secs2ms(secs: number) {
-  return secs * 1000;
-}
 
 var conn_id = 0;
 

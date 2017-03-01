@@ -1,10 +1,5 @@
 import { Expect, TestCase } from 'alsatian';
-//import { secs2ms } from '../../build.test/src/server';
-
-// TODO: Move to library
-function secs2ms(secs: number) {
-  return secs * 1000;
-}
+import { secs2ms } from '../../src/lib';
 
 export class ServerTests {
   @TestCase(1, 1000)
